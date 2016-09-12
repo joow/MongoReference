@@ -7,6 +7,8 @@ import domain.User;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReferenceModuleTest {
@@ -36,5 +38,14 @@ public class ReferenceModuleTest {
         final String serialized = objectMapper.writeValueAsString(message);
 
         assertThat(serialized).contains("\"from\":\"fromId\",\"to\":\"toId\"");
+    }
+
+    @Test
+    public void itShouldNotInstanciateReferenceWhenDeserializingNullReference() throws IOException {
+        final String serialized = "{\"id\":\"messageId\",\"content\":\"Hello World\",\"from\":\"fromId\",\"to\":null,\"provider\":null}";
+
+        final Message message = objectMapper.readValue(serialized, Message.class);
+
+        assertThat(message.getTo()).isNull();
     }
 }

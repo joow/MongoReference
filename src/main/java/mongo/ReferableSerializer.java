@@ -34,7 +34,7 @@ class ReferableSerializer<T extends Referable> extends JsonSerializer<T> impleme
         if (property == null || property.getAnnotation(Reference.class) == null) {
             return this;
         } else {
-            return new ReferableSerializer<T>(defaultSerializer, true);
+            return new ReferableSerializer<>(defaultSerializer, true);
         }
     }
 
